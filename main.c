@@ -1,46 +1,44 @@
 #include "shell.h"
 
 /**
- * main - prints a string
- * @ac: argument count
- * @av: argument vector to the function
+ * main - entry point
+ * @ac: arg count
+ * @av: arg vector
  *
- * Return: Always 0
+ * Return: 0 on success, 1 on error
  */
 int main(int ac, char **av)
 {
-	char *prompt = "$ ";
-	size_t n = 0;
-	char *lineptr;
-	ssize_t nchars;
-	char **tokens;
+	info_t info[] = { INFO_INIT };
+	int fd = 2;
 
-	(void)ac;
-	(void)av;
+	asm ("mov %1, %0\n\t"
+		"add $3, %0"
+		: "=r" (fd)
+		: "r" (fd));
 
-/*create an infinite loop*/
-	while (1)
+	if (ac == 2)
 	{
-	printf("%s", prompt);
-	nchars = getline(&lineptr, &n, stdin);
-
-	/*check if the getline function failed or reached EOF or user CTRL + D*/
-
-	if (nchars == -1)
-	{
-		printf("Exiting shell..\n");
-		return (-1);
+		fd = open(av[1], O_RDONLY);
+		if (fd == -1)
+		{
+			if (errno == EACCES)
+				exit(126);
+			if (errno == ENOENT)
+			{
+				_eputs(av[0]);
+				_eputs(": 0: Can't open ");
+				_eputs(av[1]);
+				_eputchar('\n');
+				_eputchar(BUF_FLUSH);
+				exit(127);
+			}
+			return (EXIT_FAILURE);
+		}
+		info->readfd = fd;
 	}
-	tokens = parse_input(lineptr);
-
-	if (!tokens || !tokens[0])
-	{
-		continue;
-	}
-	printf("%s", lineptr);
-	}
-	/*free up allocated memory*/
-	free(lineptr);
-	return (0);
-
+	populate_env_list(info);
+	read_history(info);
+	hsh(info, av);
+	return (EXIT_SUCCESS);
 }

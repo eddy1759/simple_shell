@@ -19,31 +19,99 @@ int _strlen(const char *s)
 	return (i);
 }
 
+
 /**
- * _strdup - duplicates the string
- * @s: string
- *
- * Return: pointer to the duplicate
+ * _strcmp - Compares two strings
+ * @s1: first string
+ * @s2: second string
+ * 
+ * Return: 0 if equal, -ve if @s1 < @s2, else +ve
  */
-char *_strdup(char *s)
+int _strcmp(char *s1, char *s2)
 {
-	int size, i;
-	char *dest;
-
-	if (!s)
+	while (*s1 && *s2)
 	{
-		return (NULL);
+		if (*s1 != *s2)
+			return (*s1 - *s2);
+		s1++;
+		s2++;
 	}
-	size = _strlen(s) + 1;
-	dest = malloc(size * sizeof(char));
-	if (!dest)
+	if (*s1 == *s2)
+		return (0);
+	else
+		return (*s1 < *s2 ? -1 : 1);
+}
+
+/**
+ * _strstr - implementation of the strstr function
+ * @haystack: string to search
+ * @needle: the substring to find
+ * 
+ * Return: address of next char of haystack or NULL
+ */
+char *starts_with(const char *haystack, const char *needle)
+{
+	while (*needle)
+		if (*needle++ != *haystack++)
+			return (NULL);
+	return ((char *)haystack);
+
+	return (NULL);
+}
+
+/**
+ * _strcpy - copies the content of a string to another
+ * @dest: the destination string
+ * @src: the source of the contents to be copied
+ * 
+ * Return: @dest
+ */
+char *_strncpy(char *dest, const char *src, int n)
+{
+	int i, j;
+	char *s = dest;
+
+	i = 0;
+	while (src[i] != '\0' && i < n - 1)
 	{
-		return (NULL);
+		dest[i] = src[i];
+		i++;
 	}
+	if (i < n)
+	{
+		j = i;
+		while (j < n)
+		{
+			dest[j] = '\0';
+			j++;
+		}
+	}
+	return (s);
+}
 
-	for (i = 0; i < size; i++)
-		*(dest + i) = *(s + i);
-	*(dest + i) = '\0';
+/**
+ * _strcat - concatenate two strings
+ * @dest: the destination string
+ * @src: the source string
+ * 
+ * Return: the result of concatenation
+ */
+char *_strncat(char *dest, char *src, int n)
+{
+	int i, j;
+	char *s = dest;
 
-	return (dest);
+	i = 0;
+	j = 0;
+	while (dest[i] != '\0')
+		i++;
+	while (src[j] != '\0' && j < n)
+	{
+		dest[i] = src[j];
+		i++;
+		j++;
+	}
+	if (j < n)
+		dest[i] = '\0';
+	return (s);
 }
