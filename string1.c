@@ -2,7 +2,7 @@
 
 /**
  * _strdup - duplicates the string
- * @s: string
+ * @str: string
  *
  * Return: pointer to the duplicate
  */
@@ -39,6 +39,12 @@ char *_strchr(char *s, char c)
 	return (NULL);
 }
 
+/**
+ *_strcat - concatenate two strings
+ *@dest: character for the destination
+ *@src: the character for the source
+ *Return: (ret) a pointer to the memory area dest
+ */
 char *_strcat(char *dest, char *src)
 {
 	char *ret = dest;

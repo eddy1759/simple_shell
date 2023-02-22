@@ -24,7 +24,6 @@ int _strlen(const char *s)
  * _strcmp - Compares two strings
  * @s1: first string
  * @s2: second string
- * 
  * Return: 0 if equal, -ve if @s1 < @s2, else +ve
  */
 int _strcmp(char *s1, char *s2)
@@ -43,10 +42,9 @@ int _strcmp(char *s1, char *s2)
 }
 
 /**
- * _strstr - implementation of the strstr function
+ * starts_with - implementation of the strstr function
  * @haystack: string to search
  * @needle: the substring to find
- * 
  * Return: address of next char of haystack or NULL
  */
 char *starts_with(const char *haystack, const char *needle)
@@ -60,10 +58,10 @@ char *starts_with(const char *haystack, const char *needle)
 }
 
 /**
- * _strcpy - copies the content of a string to another
+ * _strncpy - copies the content of a string to another
  * @dest: the destination string
+ * @n: a variable declaration
  * @src: the source of the contents to be copied
- * 
  * Return: @dest
  */
 char *_strncpy(char *dest, const char *src, int n)
@@ -90,10 +88,10 @@ char *_strncpy(char *dest, const char *src, int n)
 }
 
 /**
- * _strcat - concatenate two strings
+ * _strncat - concatenate two strings
  * @dest: the destination string
+ * @n: variable declaration
  * @src: the source string
- * 
  * Return: the result of concatenation
  */
 char *_strncat(char *dest, char *src, int n)
